@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * @version V1.0
  * @description: Hello Controller
  * @author: geek
  * @date 2021/04/11

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
+ * @version V1.0
  * @description: User Controller
  * @author: geek
  * @date 2021/04/11

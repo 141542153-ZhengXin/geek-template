@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**
+ * @version V1.0
  * @description: Result Enum
  * @author: geek
  * @date 2021/04/11

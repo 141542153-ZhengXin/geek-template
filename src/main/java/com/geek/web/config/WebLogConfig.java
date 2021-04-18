@@ -44,54 +44,59 @@ public class WebLogConfig {
      */
     @Around("webLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
+        Object result;
+        if (RequestLog.log.isDebugEnabled()) {
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
 
-        StringBuilder logInfo = null;
-        /**
-         * 请求相关参数
-         * <1> url
-         * <2> http method
-         * <3> class method: controller 的全路径以及执行方法
-         * <4> ip
-         * <5> request args: 请求入参
-         */
-        logInfo = new StringBuilder();
-        logInfo.append("\n\t ----------------------用户[{}]请求----------------------")
-                .append("\n\t url            : {}")
-                .append("\n\t http method    : {}")
-                .append("\n\t class method   : {}.{}")
-                .append("\n\t ip             : {}")
-                .append("\n\t request args   : {}")
-                .append("\n\t -------------------------------------------------------");
-        RequestLog.log.debug(logInfo.toString(),
-                request.getRemoteUser(),
-                request.getRequestURL(),
-                request.getMethod(),
-                proceedingJoinPoint.getSignature().getDeclaringTypeName(),
-                proceedingJoinPoint.getSignature().getName(),
-                request.getRemoteAddr(),
-                new Gson().toJson(proceedingJoinPoint.getArgs()));
+            StringBuilder logInfo = null;
+            /**
+             * 请求相关参数
+             * <1> url
+             * <2> http method
+             * <3> class method: controller 的全路径以及执行方法
+             * <4> ip
+             * <5> request args: 请求入参
+             */
+            logInfo = new StringBuilder();
+            logInfo.append("\n\t ----------------------用户[{}]请求----------------------")
+                    .append("\n\t url            : {}")
+                    .append("\n\t http method    : {}")
+                    .append("\n\t class method   : {}.{}")
+                    .append("\n\t ip             : {}")
+                    .append("\n\t request args   : {}")
+                    .append("\n\t -------------------------------------------------------");
+            RequestLog.log.debug(logInfo.toString(),
+                    request.getRemoteUser(),
+                    request.getRequestURL(),
+                    request.getMethod(),
+                    proceedingJoinPoint.getSignature().getDeclaringTypeName(),
+                    proceedingJoinPoint.getSignature().getName(),
+                    request.getRemoteAddr(),
+                    new Gson().toJson(proceedingJoinPoint.getArgs()));
 
-        long startTime = System.currentTimeMillis();
-        Object result = proceedingJoinPoint.proceed();
-        long endTime = System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
+            result = proceedingJoinPoint.proceed();
+            long endTime = System.currentTimeMillis();
 
-        /**
-         * 请求相关参数
-         * <1> 出参
-         * <2> 执行耗时
-         */
-        logInfo = new StringBuilder();
-        logInfo.append("\n\t ----------------------用户请求结果-----------------------")
-                .append("\n\t url            : {}")
-                .append("\n\t response args  : {}")
-                .append("\n\t time-consuming : {} ms")
-                .append("\n\t -------------------------------------------------------");
-        RequestLog.log.debug(logInfo.toString(),
-                request.getRequestURL(),
-                new Gson().toJson(result),
-                endTime - startTime);
+            /**
+             * 请求相关参数
+             * <1> 出参
+             * <2> 执行耗时
+             */
+            logInfo = new StringBuilder();
+            logInfo.append("\n\t ----------------------用户请求结果-----------------------")
+                    .append("\n\t url            : {}")
+                    .append("\n\t response args  : {}")
+                    .append("\n\t time-consuming : {} ms")
+                    .append("\n\t -------------------------------------------------------");
+            RequestLog.log.debug(logInfo.toString(),
+                    request.getRequestURL(),
+                    new Gson().toJson(result),
+                    endTime - startTime);
+        } else {
+            result = proceedingJoinPoint.proceed();
+        }
         return result;
     }
 

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
+ * @version V1.0
  * @description: 返回结果 VM
  * @author: geek
  * @date 2021/04/11
