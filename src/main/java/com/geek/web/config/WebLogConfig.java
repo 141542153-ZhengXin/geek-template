@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * @version V1.0
  * @description: 请求日志 Config
  * @author: geek
  * @date 2021/04/11
@@ -23,9 +24,14 @@ import javax.servlet.http.HttpServletRequest;
 public class WebLogConfig {
 
     /**
-     * 以 controller 包下定义的所有请求为切入点
+     * 以请求 annotation 作为切入点
      */
-    @Pointcut("execution(public * com.geek.web.controller..*.*(..))")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PathVariable)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
     public void webLog() {
     }
 
@@ -52,12 +58,12 @@ public class WebLogConfig {
          */
         logInfo = new StringBuilder();
         logInfo.append("\n\t ----------------------用户[{}]请求----------------------")
-               .append("\n\t url            : {}")
-               .append("\n\t http method    : {}")
-               .append("\n\t class method   : {}.{}")
-               .append("\n\t ip             : {}")
-               .append("\n\t request args   : {}")
-               .append("\n\t -------------------------------------------------------");
+                .append("\n\t url            : {}")
+                .append("\n\t http method    : {}")
+                .append("\n\t class method   : {}.{}")
+                .append("\n\t ip             : {}")
+                .append("\n\t request args   : {}")
+                .append("\n\t -------------------------------------------------------");
         RequestLog.log.debug(logInfo.toString(),
                 request.getRemoteUser(),
                 request.getRequestURL(),
@@ -78,10 +84,10 @@ public class WebLogConfig {
          */
         logInfo = new StringBuilder();
         logInfo.append("\n\t ----------------------用户请求结果-----------------------")
-               .append("\n\t url            : {}")
-               .append("\n\t response args  : {}")
-               .append("\n\t time-consuming : {} ms")
-               .append("\n\t -------------------------------------------------------");
+                .append("\n\t url            : {}")
+                .append("\n\t response args  : {}")
+                .append("\n\t time-consuming : {} ms")
+                .append("\n\t -------------------------------------------------------");
         RequestLog.log.debug(logInfo.toString(),
                 request.getRequestURL(),
                 new Gson().toJson(result),
