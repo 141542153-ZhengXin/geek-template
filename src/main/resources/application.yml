@@ -4,6 +4,8 @@ server:
     context-path: /geek-template
 
 spring:
+  profiles:
+    active: dev
   # 应用
   application:
     name: geek-template
@@ -39,4 +41,4 @@ mybatis-plus:
 # 日志
 logging:
   level:
-    com.geek.web.config.WebLogConfig: debug
+    com.geek.web.config.WebLogConfig: info

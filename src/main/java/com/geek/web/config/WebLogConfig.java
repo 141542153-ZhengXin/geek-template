@@ -1,12 +1,11 @@
 package com.geek.web.config;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @version V1.0
- * @description: 请求日志 Config
+ * @description: WebLogConfig Config
  * @author: geek
  * @date 2021/04/11
  **/
@@ -73,7 +72,7 @@ public class WebLogConfig {
                     proceedingJoinPoint.getSignature().getDeclaringTypeName(),
                     proceedingJoinPoint.getSignature().getName(),
                     request.getRemoteAddr(),
-                    new Gson().toJson(proceedingJoinPoint.getArgs()));
+                    proceedingJoinPoint.getArgs());
 
             long startTime = System.currentTimeMillis();
             result = proceedingJoinPoint.proceed();
@@ -92,7 +91,7 @@ public class WebLogConfig {
                     .append("\n\t -------------------------------------------------------");
             RequestLog.log.debug(logInfo.toString(),
                     request.getRequestURL(),
-                    new Gson().toJson(result),
+                    result,
                     endTime - startTime);
         } else {
             result = proceedingJoinPoint.proceed();
