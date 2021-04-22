@@ -31,6 +31,9 @@ spring:
 
 # mybatis-plus
 mybatis-plus:
+  global-config:
+    #打印 logo
+    banner: false
   # 对应的映射文件路径
   mapper-locations: classpath:mapper/*.xml
   # 对应的实体类
@@ -40,5 +43,4 @@ mybatis-plus:
 
 # 日志
 logging:
-  level:
-    com.geek.web.config.WebLogConfig: info
+  config: classpath:log4j2.xml

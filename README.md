@@ -2,10 +2,11 @@
     【模块】项目标准模板
 
 ## 框架结构
-`spring-boot` `mybatis-plus`
+`spring-boot` `mybatis-plus` `log4j2`
 
-    spring-boot: 2.3.5.RELEASE
+     spring-boot: 2.3.5.RELEASE
     mybatis-plus: 3.2.0
+          log4j2: 2.3.5.RELEASE
 
 ## 项目结构
 ``` 
