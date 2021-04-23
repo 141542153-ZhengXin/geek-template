@@ -59,11 +59,11 @@ public class WebLogConfig {
              */
             logInfo = new StringBuilder();
             logInfo.append("\n\t ----------------------用户[{}]请求----------------------")
-                    .append("\n\t url            : {}")
-                    .append("\n\t http method    : {}")
-                    .append("\n\t class method   : {}.{}")
-                    .append("\n\t ip             : {}")
-                    .append("\n\t request args   : {}")
+                    .append("\n\t DEBUG url            : {}")
+                    .append("\n\t DEBUG http method    : {}")
+                    .append("\n\t DEBUG class method   : {}.{}")
+                    .append("\n\t DEBUG ip             : {}")
+                    .append("\n\t DEBUG request args   : {}")
                     .append("\n\t -------------------------------------------------------");
             RequestLog.log.debug(logInfo.toString(),
                     request.getRemoteUser(),
@@ -85,9 +85,9 @@ public class WebLogConfig {
              */
             logInfo = new StringBuilder();
             logInfo.append("\n\t ----------------------用户请求结果-----------------------")
-                    .append("\n\t url            : {}")
-                    .append("\n\t response args  : {}")
-                    .append("\n\t time-consuming : {} ms")
+                    .append("\n\t DEBUG url            : {}")
+                    .append("\n\t DEBUG response args  : {}")
+                    .append("\n\t DEBUG time-consuming : {} ms")
                     .append("\n\t -------------------------------------------------------");
             RequestLog.log.debug(logInfo.toString(),
                     request.getRequestURL(),
