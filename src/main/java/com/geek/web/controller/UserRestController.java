@@ -1,11 +1,10 @@
 package com.geek.web.controller;
 
+import com.geek.api.model.enums.ResultEnum;
+import com.geek.api.model.vm.ResultVM;
+import com.geek.api.util.ResultUtil;
 import com.geek.web.model.entity.SysUser;
-import com.geek.web.model.enums.ResultEnum;
-import com.geek.web.model.vm.ResultVM;
 import com.geek.web.service.UserService;
-import com.geek.web.util.ResultUtil;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

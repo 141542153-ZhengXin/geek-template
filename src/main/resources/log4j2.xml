@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- monitorInterval：Log4j2 自动检测对配置文件的更改并自行重新配置，设置间隔秒数，最小间隔为 5 秒 -->
+<!-- monitorInterval：Log4j2 自动检测对配置文件的更改并自行重新配置,设置间隔秒数,最小间隔为 5 秒 -->
 <configuration monitorInterval="5">
     <!-- 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
     <Properties>
         <!-- 输出日志格式 -->
-        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%t]  %class{36}(%L) %M : %msg%n" />
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%t]  %logger{36}(%L) %M : %msg%n"/>
         <!-- 定义日志存储的路径 -->
-        <property name="FILE_PATH" value="logs" />
-        <property name="FILE_NAME" value="geek-template" />
+        <property name="FILE_PATH" value="logs"/>
+        <property name="FILE_NAME" value="geek-template"/>
     </Properties>
 
     <appenders>
         <console name="STDOUT" target="SYSTEM_OUT">
             <!-- 输出日志的格式 -->
             <PatternLayout pattern="${LOG_PATTERN}"/>
-            <!-- 输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <!-- 输出level及其以上级别的信息（onMatch）,其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
         </console>
 
-        <RollingFile name="RollingFile" fileName="${FILE_PATH}/info.log" filePattern="${FILE_PATH}/${FILE_NAME}-info-%d{yyyy-MM-dd}_%i.log.gz">
+        <RollingFile name="RollingFile" fileName="${FILE_PATH}/info.log"
+                     filePattern="${FILE_PATH}/${FILE_NAME}-info-%d{yyyy-MM-dd}_%i.log.gz">
             <!-- 输出日志的格式 -->
             <PatternLayout pattern="${LOG_PATTERN}"/>
-            <!-- 输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <!-- 输出level及其以上级别的信息（onMatch）,其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             <Policies>
-                <!-- 基于时间的触发策略，日志文件每天滚动一次 < %d{yyyy-MM-dd} > -->
+                <!-- 基于时间的触发策略,日志文件每天滚动一次 < %d{yyyy-MM-dd} > -->
                 <TimeBasedTriggeringPolicy interval="1"/>
-                <!-- 基于大小的触发策略，日志文件大小达到 50MB 滚动一次 < %i > -->
+                <!-- 基于大小的触发策略,日志文件大小达到 50MB 滚动一次 < %i > -->
                 <SizeBasedTriggeringPolicy size="50MB"/>
             </Policies>
-            <!-- 保存日志文件个数，max参数与filePattern中的计数器%i配合，默认是7 -->
+            <!-- 保存日志文件个数,max参数与filePattern中的计数器%i配合,默认是7 -->
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
     </appenders>
 
     <loggers>
+        <!-- 异步 Logger 和异步附加器不包含位置信息,includeLocation ="true",开启位置信息影响日志记录性能 -->
         <logger name="com.geek.web.config" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="RollingFile"/>

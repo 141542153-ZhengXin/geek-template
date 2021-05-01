@@ -13,7 +13,7 @@
 
     <groupId>com.geek</groupId>
     <artifactId>geek-template</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0.20210426.Beta</version>
     <description>geek template</description>
 
     <properties>
@@ -22,6 +22,8 @@
         <java.version>1.8</java.version>
         <mybatisplus.version>3.2.0</mybatisplus.version>
         <springfox.version>3.0.0</springfox.version>
+        <disruptor.version>3.4.2</disruptor.version>
+        <geek-api.version>1.0.0.20210426.Beta</geek-api.version>
     </properties>
 
     <dependencies>
@@ -42,6 +44,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <!-- 引入disruptor并发框架 -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,19 +80,97 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.geek</groupId>
+            <artifactId>geek-api</artifactId>
+            <version>${geek-api.version}</version>
+        </dependency>
     </dependencies>
+
+    <!-- 打包选择运行环境 -->
+    <!-- 1:dev :开发环境
+         2:prod:生产环境
+         3:test:测试环境 -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profile-active>dev</profile-active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile-active>prod</profile-active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile-active>test</profile-active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${parent.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
-                    <fork>true</fork>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!-- 主类名 -->
+                            <mainClass>com.geek.web.MainApplicaction</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptors>
+                        <descriptor>${basedir}/src/main/build/assembly.xml</descriptor>
+                    </descriptors>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>

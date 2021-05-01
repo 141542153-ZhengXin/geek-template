@@ -16,6 +16,8 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @SpringBootApplication
 public class MainApplication {
     public static void main(String[] args) {
+        //日志输出使用异步处理，减小输出日志对性能的影响
+        System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         SpringApplication.run(MainApplication.class, args);
     }
 }
