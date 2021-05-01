@@ -1,6 +1,5 @@
 package com.geek.web.controller;
 
-import com.geek.api.model.enums.ResultEnum;
 import com.geek.api.model.vm.ResultVM;
 import com.geek.api.util.ResultUtil;
 import io.swagger.annotations.Api;
@@ -30,7 +29,8 @@ public class HelloRestController {
         try {
             return ResultUtil.success(id);
         } catch (Exception e) {
-            return ResultUtil.error(ResultEnum.SERVER_ERROR.getCode(), "请求失败");
+            log.error("根据id获取信息报错", e);
+            throw e;
         }
     }
 }

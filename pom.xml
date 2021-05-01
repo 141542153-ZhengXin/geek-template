@@ -24,6 +24,7 @@
         <springfox.version>3.0.0</springfox.version>
         <disruptor.version>3.4.2</disruptor.version>
         <geek-api.version>1.0.0.20210426.Beta</geek-api.version>
+        <apache.commons.version>3.9</apache.commons.version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,11 @@
             <groupId>com.geek</groupId>
             <artifactId>geek-api</artifactId>
             <version>${geek-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.commons.version}</version>
         </dependency>
     </dependencies>
 

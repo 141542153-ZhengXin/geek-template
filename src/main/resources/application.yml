@@ -28,6 +28,11 @@ spring:
       idleTimeout: 60000
       # 等待连接池的最大毫秒数
       connectionTimeout: 20000
+  # 配置统一异常处理时使用自定义的异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
 
 # mybatis-plus
 mybatis-plus:

@@ -1,6 +1,5 @@
 package com.geek.web.controller;
 
-import com.geek.api.model.enums.ResultEnum;
 import com.geek.api.model.vm.ResultVM;
 import com.geek.api.util.ResultUtil;
 import com.geek.web.model.entity.SysUser;
@@ -29,13 +28,12 @@ public class UserRestController {
 
     @GetMapping("/getUser/{id}")
     public ResultVM<SysUser> getUser(@PathVariable(value = "id") String id) {
-        SysUser user;
         try {
-            user = userService.getById(id);
+            SysUser user = userService.getById(id);
+            return ResultUtil.success(user);
         } catch (Exception e) {
-            log.error("{}查询报错", "/getUser/{id}", e);
-            return ResultUtil.error(ResultEnum.SERVER_ERROR.getCode(), "请求失败");
+            log.error("/getUser/{id}执行报错", e);
+            throw e;
         }
-        return ResultUtil.success(user);
     }
 }
