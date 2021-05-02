@@ -14,7 +14,7 @@ if exist "%M2_HOME%" (
 echo [INFO] ---------------------------------[ build ]---------------------------------
 ::build
 echo start building, please wait...
-echo current instruction: call mvn clean compile package
-call mvn clean compile package
+echo current instruction: call mvn clean compile package -Dmaven.test.skip=true
+call mvn clean compile package -Dmaven.test.skip=true
 echo.&echo build completed, Press any key to exit &pause>nul
 exit
